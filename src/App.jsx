@@ -1,33 +1,53 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
+import TodoFeatures from './features/Todo'
+import AlbumFeatures from './features/Album'
+import NotFound from './components/Notfound'
+// import ListPage from './features/Todo/pages/ListPage'
+// import DetailPage from './features/Todo/pages/DetailPage'
+
+import { Route, Routes, Link, NavLink, Navigate} from 'react-router-dom'
 import './App.css'
 
+import CounterFeature from './features/Counter'
+import Header from 'components/Header'
+import { Button } from '@mui/material'
+import { useSnackbar } from 'notistack'
+import ProductFeature from 'features/Product'
+import ListPage from 'features/Product/pages/ListPage'
+
 function App() {
-  const [count, setCount] = useState(0)
+  const {enqueueSnackbar} = useSnackbar();
+  
+
+  const Shownoti = ()=>{
+    enqueueSnackbar('Register successfully', {variant: 'success'})
+  }
 
   return (
     <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
+      <div className="app">
+        <Header/>
+        <Routes>
+          <Route path='/home' element={<Navigate to='/' replace />}/>
+
+          {/* <Route path='/' element={<CounterFeature/>} />  */}
+          {/* <Route path='todo' element={<TodoFeatures/>} >
+            <Route index element={<ListPage/>}/>
+            <Route path=':todoId' element={<DetailPage/>}/>
+            <Route path='*' element={<NotFound/>}/>
+          </Route> */}
+          <Route path='album' element={<AlbumFeatures/>} />
+          <Route path='product' element={<ProductFeature/>} >
+            <Route index element={<ListPage/>}/>
+            {/* <Route path=':productId' element={<DetailPage/>}/> */}
+            <Route path='*' element={<NotFound/>}/>
+          </Route>
+
+          <Route path='*' element={<NotFound/>}/>
+        </Routes>
+      <footer>
+        <h2>Footer</h2>
+      </footer>
       </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
     </>
   )
 }

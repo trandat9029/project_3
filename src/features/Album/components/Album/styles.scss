@@ -1,0 +1,15 @@
+.item{
+    list-style: none;
+    
+    &__img{
+        width: 200px;
+        height: 200px;
+        border-radius: 10px;
+        object-fit: cover;
+
+    }
+    &__title{
+        font-size: 24px;
+        font-weight: 600;
+    }
+}
