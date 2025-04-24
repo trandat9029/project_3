@@ -23,7 +23,7 @@ function ProductSkeletonList({length}) {
                 {Array.from(new Array(length)).map((item, index) => (
                 <Grid  key={index} sx={{ gridColumn: 'span 4' }}    >
                     <Box padding={1}>
-                        <Skeleton variant="rectangular" width="100%" height={118} />
+                        <Skeleton variant="rectangular" width="100%" height={200} />
                         <Skeleton />
                         <Skeleton width="60%" />
                     </Box>
