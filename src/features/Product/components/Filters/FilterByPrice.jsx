@@ -39,16 +39,17 @@ function FilterByPrice({onChange}) {
   
   return (
     <>
-      <Box>
-        <Typography variant='subtitle2'>Giá</Typography>
+      <Box padding={2} sx={{ borderTop: '1px solid #ccc' }}>
+        <Typography variant='subtitle2'>Chọn khoảng Giá</Typography>
 
-        <Box>
+        <Box sx={{marginTop: 1, marginBottom: 1, display: 'flex', flexFlow: 'row nowrap', alignItems: 'center', gap: 1}}>
           <TextField name='price_gte' type='number' size='small' value={values.price_gte} onChange={handleChange} />
           <span>-</span>
           <TextField name='price_lte' type='number' size='small' value={values.price_lte} onChange={handleChange} />
         </Box>
 
         <Button 
+        size='small'
           variant='outlined' 
           color='primary' 
           onClick={handleSubmit}

@@ -9,6 +9,8 @@ import ProductSkeletonList from '../components/ProductSkeletonList';
 import ProductList from '../components/ProductList';
 import ProductSort from '../components/ProductSort';
 import ProductFilters from '../components/ProductFilters';
+import { Filter } from '@mui/icons-material';
+import FilterViewer from '../components/FilterViewer';
 
 
 ListPage.propTypes = {
@@ -35,10 +37,10 @@ function ListPage() {
     useEffect(() =>{
         (async() =>{
             try {
-                // ✅ Gọi tất cả sản phẩm (limit cao lên)
-                const { data } = await productApi.getAll({ ...filters, _limit: 100, _page: 1 });
+                // Gọi tất cả sản phẩm (limit cao lên)
+                const { data } = await productApi.getAll({ ...filters, _limit: 194, _page: 1 });
 
-                // ✅ Lọc theo giá trước
+                // Lọc theo giá trước
                 const filteredByPrice = data.filter((product) => {
                   const { price_gte, price_lte } = filters;
                   const matchMin = price_gte ? product.price >= price_gte : true;
@@ -46,13 +48,13 @@ function ListPage() {
                   return matchMin && matchMax;
                 });
 
-                // ✅ Sắp xếp
+                // Sắp xếp
                 const sorted = [...filteredByPrice].sort((a, b) => {
                   const { sortBy, order } = filters;
                   return order === 'asc' ? a[sortBy] - b[sortBy] : b[sortBy] - a[sortBy];
                 });
 
-                // ✅ Tính phân trang thủ công
+                //  Tính phân trang thủ công
                 const page = filters._page || 1;
                 const limit = filters._limit || 9;
                 const start = (page - 1) * limit;
@@ -62,7 +64,7 @@ function ListPage() {
                 setPagination({
                   page,
                   limit,
-                  total: sorted.length, // ✅ Tổng dựa trên danh sách đã lọc
+                  total: sorted.length, 
                 });
             } catch (error) {
                 console.log('Failed to fetch product list', error);
@@ -97,12 +99,15 @@ function ListPage() {
       console.log('Filters changed:', newFilters); 
     };
 
+    const setNewFilters = (newFilters) => {
+      setFilters(newFilters);
+    };
 
   return (
     <>
         <Box>
           <Container width={'100%'} >
-            <Grid container display='grid' sx={{gridTemplateColumns: 'repeat(12, 1fr)'}} >
+            <Grid container display='grid' gap={2} sx={{gridTemplateColumns: 'repeat(12, 1fr)'}} >
               {/* Cột trái */}
               <Grid sx={{ gridColumn: 'span 3' }}>
                 <Paper elevation={0}>
@@ -114,7 +119,7 @@ function ListPage() {
               <Grid sx={{ gridColumn: 'span 9'}}>
                 <Paper elevation={0}  >
                   <ProductSort currentSort={`${filters.sortBy}:${filters.order}`} onChange={handleSortChange} />
-
+                  <FilterViewer filters={filters} onChange={setNewFilters} />
                   {loading ? (
                     <ProductSkeletonList length={12} />
                   ) : (
