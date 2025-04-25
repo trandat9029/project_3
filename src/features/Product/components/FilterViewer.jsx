@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import PropTypes from 'prop-types';
 import { Box, Chip } from '@mui/material';
 
@@ -72,31 +72,35 @@ const FILTER_LIST =[
 
 function FilterViewer({filters = {}, onChange = null}) {
 
-  return (
-    <>
-      <Box component='ul' sx={{display: 'flex', flexFlow: 'row wrap', alignItems: 'center', margin: '20px 0', listStyle: 'none'}}>
-        {FILTER_LIST.filter(x => x.isVisible(filters)).map(x =>(
-            <li key={x.id}>
-                <Chip 
-                    label={x.getLabel(filters)} 
-                    color={x.isActive(filters) ? 'primary' : 'default'}
-                    clickable={!x.isRemovable}
-                    onClick={x.isRemovable ? null : () =>{
-                        if(!onChange) return;
-                        const newFilters = x.onToggle(filters)
-                        onChange(newFilters);
-                    }}
-                    onDelete={x.isRemovable ? ()=>{
-                        if(!onChange) return;
-                        const newFilters = x.onRemove(filters)
-                        onChange(newFilters);
-                    } : null}
-                />
-            </li>
-        ))}
-      </Box>
-    </>
-  );
+    const visibleFilters = useMemo(()=>{
+        return FILTER_LIST.filter(x => x.isVisible(filters));
+    }, [filters])
+
+    return (
+        <>
+            <Box component='ul' sx={{display: 'flex', flexFlow: 'row wrap', alignItems: 'center', margin: '20px 0', listStyle: 'none'}}>
+                {visibleFilters.map(x =>(
+                    <li key={x.id}>
+                        <Chip 
+                            label={x.getLabel(filters)} 
+                            color={x.isActive(filters) ? 'primary' : 'default'}
+                            clickable={!x.isRemovable}
+                            onClick={x.isRemovable ? null : () =>{
+                                if(!onChange) return;
+                                const newFilters = x.onToggle(filters)
+                                onChange(newFilters);
+                            }}
+                            onDelete={x.isRemovable ? ()=>{
+                                if(!onChange) return;
+                                const newFilters = x.onRemove(filters)
+                                onChange(newFilters);
+                            } : null}
+                        />
+                    </li>
+                ))}
+            </Box>
+        </>
+    );
 }
 
 export default FilterViewer;
