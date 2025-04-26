@@ -6,6 +6,7 @@ import ProductThumbnail from '../components/ProductThumbnail';
 import { useParams } from 'react-router-dom';
 import useProductDetail from '../hooks/useProductDetail';
 import ProductInfo from '../components/ProductInfo';
+import AddToCartForm from '../components/AddToCartForm';
 
 
 
@@ -19,9 +20,13 @@ function DetailPage() {
         return <Box>Loading</Box>
     }
 
+    const handleAddToCartSubmit = (formValues)=>{
+      console.log('Form submit: ', formValues);
+    }
+
   return (
     <>
-      <Box padding='0 200px'>
+      <Box padding='0 150px'>
         <Container >
             <Paper elevation={0} >
                 <Grid container display='grid' sx={{gridTemplateColumns: 'repeat(12, 1fr)'}}>
@@ -30,6 +35,7 @@ function DetailPage() {
                     </Grid>
                     <Grid sx={{ gridColumn: 'span 7', padding: '12px' }}>
                         <ProductInfo product={product}/>
+                        <AddToCartForm onSubmit={handleAddToCartSubmit} />
                     </Grid>
                 </Grid>
             </Paper>
