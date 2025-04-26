@@ -1,26 +1,14 @@
 import TodoFeatures from './features/Todo'
 import AlbumFeatures from './features/Album'
 import NotFound from './components/Notfound'
-// import ListPage from './features/Todo/pages/ListPage'
-// import DetailPage from './features/Todo/pages/DetailPage'
-
-import { Route, Routes, Link, NavLink, Navigate} from 'react-router-dom'
+import { Route, Routes, Navigate} from 'react-router-dom'
 import './App.css'
-
-import CounterFeature from './features/Counter'
 import Header from 'components/Header'
-import { Button } from '@mui/material'
-import { useSnackbar } from 'notistack'
 import ProductFeature from 'features/Product'
 import ListPage from 'features/Product/pages/ListPage'
+import DetailPage from 'features/Product/pages/DetailPage'
 
 function App() {
-  const {enqueueSnackbar} = useSnackbar();
-  
-
-  const Shownoti = ()=>{
-    enqueueSnackbar('Register successfully', {variant: 'success'})
-  }
 
   return (
     <>
@@ -38,7 +26,7 @@ function App() {
           <Route path='album' element={<AlbumFeatures/>} />
           <Route path='product' element={<ProductFeature/>} >
             <Route index element={<ListPage/>}/>
-            {/* <Route path=':productId' element={<DetailPage/>}/> */}
+            <Route path=':productId' element={<DetailPage/>}/>
             <Route path='*' element={<NotFound/>}/>
           </Route>
 

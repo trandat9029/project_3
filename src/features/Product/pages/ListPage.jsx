@@ -104,6 +104,8 @@ function ListPage() {
                   limit,
                   total: sorted.length, 
                 });
+
+                console.log('>>> check products:', pagedList);
             } catch (error) {
                 console.log('Failed to fetch product list', error);
             }
