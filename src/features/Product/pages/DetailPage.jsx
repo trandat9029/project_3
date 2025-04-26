@@ -11,6 +11,8 @@ import ProductMenu from '../components/ProductMenu';
 import ProductDescription from '../components/ProductDescription';
 import ProductAdditional from '../components/ProductAdditional';
 import ProductReview from '../components/ProductReview';
+import { useDispatch } from 'react-redux';
+import { addToCart } from 'features/Cart/cartSlice';
 
 
 
@@ -19,6 +21,7 @@ function DetailPage() {
 
     const { productId } = useParams();
     const {product, loading} = useProductDetail(productId);
+    const dispatch = useDispatch();
 
     if(loading){
         return <Box sx={{position: 'fixed', top: 0, left: 0, width: '100%'}}>
@@ -26,8 +29,15 @@ function DetailPage() {
         </Box>
     }
 
-    const handleAddToCartSubmit = (formValues)=>{
-      console.log('Form submit: ', formValues);
+    const handleAddToCartSubmit = ({quantity})=>{
+      // console.log('Form submit: ', formValues);
+      const action = addToCart({
+        id: product.id,
+        product,
+        quantity,
+      });
+      console.log(action)
+      dispatch(action);
     }
 
   return (

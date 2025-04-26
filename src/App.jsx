@@ -7,6 +7,7 @@ import Header from 'components/Header'
 import ProductFeature from 'features/Product'
 import ListPage from 'features/Product/pages/ListPage'
 import DetailPage from 'features/Product/pages/DetailPage'
+import CartPage from 'features/Cart'
 
 function App() {
 
@@ -24,6 +25,7 @@ function App() {
             <Route path='*' element={<NotFound/>}/>
           </Route> */}
           <Route path='album' element={<AlbumFeatures/>} />
+          <Route path='cart' element={<CartPage/>}/>
           <Route path='product' element={<ProductFeature/>} >
             <Route index element={<ListPage/>}/>
             <Route path=':productId/*' element={<DetailPage/>}/>

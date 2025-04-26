@@ -6,15 +6,18 @@ import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
 import IconButton from '@mui/material/IconButton';
 import CodeIcon from '@mui/icons-material/Code';
-import { NavLink, Link } from 'react-router-dom';
+import { NavLink, Link, useNavigate } from 'react-router-dom';
 import Dialog from '@mui/material/Dialog';
 import DialogContent from '@mui/material/DialogContent';
 import Register from 'features/Auth/components/RegisterForm';
 import Login from 'features/Auth/components/Login';
-import { AccountCircle, Close} from '@mui/icons-material';
+import { AccountCircle, Close } from '@mui/icons-material';
+import Badge from '@mui/material/Badge';
+import ShoppingCart from '@mui/icons-material/ShoppingCart';
 import { useDispatch, useSelector } from 'react-redux';
 import { Menu, MenuItem } from '@mui/material';
 import { logout } from 'features/Auth/userSlice';
+import { cartItemsCountSelector } from 'features/Cart/selectors';
 
 const MODE = {
   LOGIN: 'login',
@@ -27,7 +30,10 @@ export default function Header() {
   const dispatch = useDispatch();
   const loggedInUser = useSelector(state => state.user.current);
   const isLoggedIn = !!loggedInUser.id;
-  
+  const cartItemsCount = useSelector(cartItemsCountSelector)
+  // const location =useLocation();
+  const navigate = useNavigate();
+
   const [anchorEl, setAnchorEl] = useState(null)
   const [open, setOpen] = useState(false);
   const [mode, setMode] = useState(MODE.LOGIN)
@@ -53,6 +59,9 @@ export default function Header() {
     const action = logout();
     dispatch(action);
   }
+  const handleCartClick = () =>{
+    navigate('/cart')
+  }
 
   return (
     <div>
@@ -66,15 +75,24 @@ export default function Header() {
             <NavLink to="/product" style={navLinkStyle}>
               <Button color="inherit">Products</Button>
             </NavLink>
+            <NavLink to="/cart" style={navLinkStyle}>
+              <Button color="inherit">Cart</Button>
+            </NavLink>
             <NavLink to="/album" style={navLinkStyle}>
               <Button color="inherit">Albums</Button>
             </NavLink>
-
+          
             {!isLoggedIn && (
               <Button color="inherit" onClick={handleClickOpen}>
                 Login
               </Button>              
             )}
+
+            <IconButton size="large" aria-label="show 4 new mails" color="inherit" onClick={handleCartClick}>
+              <Badge badgeContent={cartItemsCount} color="error">
+                <ShoppingCart />
+              </Badge>
+            </IconButton>
 
             {isLoggedIn && (
               <IconButton color="inherit" onClick={handleUserClick} >
