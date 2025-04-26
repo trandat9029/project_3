@@ -1,12 +1,16 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Box, Grid, Paper } from '@mui/material';
+import { Box, Grid, LinearProgress, Paper } from '@mui/material';
 import Container from '@mui/material/Container';
 import ProductThumbnail from '../components/ProductThumbnail';
-import { useParams } from 'react-router-dom';
+import { Route, Routes, useParams } from 'react-router-dom';
 import useProductDetail from '../hooks/useProductDetail';
 import ProductInfo from '../components/ProductInfo';
 import AddToCartForm from '../components/AddToCartForm';
+import ProductMenu from '../components/ProductMenu';
+import ProductDescription from '../components/ProductDescription';
+import ProductAdditional from '../components/ProductAdditional';
+import ProductReview from '../components/ProductReview';
 
 
 
@@ -17,7 +21,9 @@ function DetailPage() {
     const {product, loading} = useProductDetail(productId);
 
     if(loading){
-        return <Box>Loading</Box>
+        return <Box sx={{position: 'fixed', top: 0, left: 0, width: '100%'}}>
+          <LinearProgress />
+        </Box>
     }
 
     const handleAddToCartSubmit = (formValues)=>{
@@ -39,6 +45,12 @@ function DetailPage() {
                     </Grid>
                 </Grid>
             </Paper>
+            <ProductMenu/>
+            <Routes>
+              <Route index element={<ProductDescription product={product} />} />
+              <Route path="additional" element={<ProductAdditional product={product} />} />
+              <Route path="reviews" element={<ProductReview product={product} />} />
+            </Routes>
         </Container>
       </Box>
     </>

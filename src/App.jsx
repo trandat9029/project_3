@@ -26,7 +26,7 @@ function App() {
           <Route path='album' element={<AlbumFeatures/>} />
           <Route path='product' element={<ProductFeature/>} >
             <Route index element={<ListPage/>}/>
-            <Route path=':productId' element={<DetailPage/>}/>
+            <Route path=':productId/*' element={<DetailPage/>}/>
             <Route path='*' element={<NotFound/>}/>
           </Route>
 
